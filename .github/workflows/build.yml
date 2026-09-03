@@ -49,7 +49,7 @@ jobs:
       - name: Build Video2X
         run: |
           mkdir -p /tmp/build /tmp/install
-          cmake -B /tmp/build -S . -DCMAKE_BUILD_TYPE=Debug \
+          cmake -B /tmp/build -S . --DCMAKE_BUILD_TYPE=Release \
             -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ \
             -DVIDEO2X_USE_EXTERNAL_NCNN=OFF -DVIDEO2X_USE_EXTERNAL_SPDLOG=OFF \
             -DINSTALL_BIN_DESTINATION=. -DINSTALL_INCLUDE_DESTINATION=include \
@@ -100,7 +100,7 @@ jobs:
           cmake -S . -B build `
             -DVIDEO2X_USE_EXTERNAL_NCNN=OFF -DVIDEO2X_USE_EXTERNAL_SPDLOG=OFF -DVIDEO2X_USE_EXTERNAL_BOOST=OFF `
             -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=build/video2x_install
-          cmake --build build --config Debug --parallel --target install
+          cmake --build build --config Release --parallel --target install
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v6
