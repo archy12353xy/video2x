@@ -369,9 +369,14 @@ int VideoProcessor::process_filtering(
         av_strerror(ret, errbuf, sizeof(errbuf));
         logger()->critical("Error filtering frame: {}", errbuf);
     } else if (ret == 0 && proc_frame != nullptr) {
+        if (enc_cfg_.recalculate_pts) {
+            proc_frame->pts = frame->pts;
+        }
+
         auto processed_frame = std::unique_ptr<AVFrame, decltype(&avutils::av_frame_deleter)>(
-            proc_frame, &avutils::av_frame_deleter
+        proc_frame, &avutils::av_frame_deleter
         );
+
         ret = write_frame(processed_frame.get(), encoder);
     }
     return ret;
